@@ -4,7 +4,7 @@
 
 The Hypergraph Context Graph is an infrastructure layer for institutional memory in enterprise AI systems. It captures decision context using hypergraph-native storage and provides reasoning constraints for agentic AI platforms.
 
-![System Architecture](./architecture.png)
+<img src="./architecture.png" alt="System Architecture" width="800">
 
 ---
 
