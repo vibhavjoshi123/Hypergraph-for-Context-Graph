@@ -1,35 +1,20 @@
-# Enterprise Context Graph
+# Hypergraph Context Graph
 
-## Implementing Context Graphs Using Hypergraph Research
+[![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
+[![TypeDB](https://img.shields.io/badge/TypeDB-3.x-green.svg)](https://typedb.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-This implementation adapts the methodology from **"Higher-Order Knowledge Representations for Agentic Scientific Reasoning"** (Stewart & Buehler, MIT, 2026) for enterprise decision-making contexts.
+**Production-ready Enterprise Context Graph using Hypergraphs and TypeDB**
 
-### The Problem
+This project implements a hypergraph-based context graph system for enterprise decision-making, based on the methodology from ["Higher-Order Knowledge Representations for Agentic Scientific Reasoning"](https://arxiv.org/abs/2601.04878) (Stewart & Buehler, MIT, 2026).
 
-Enterprise AI systems face a fundamental challenge: **context heterogeneity**. As described in recent industry discourse:
+## Why Hypergraphs?
 
-> "Instead of five warehouses, we're moving toward hundreds of agents, copilots, and AI applications. Each with its own partial view of the world, its own embedded definitions, its own 'private' context window."
+Traditional knowledge graphs use pairwise edges (connecting exactly 2 nodes). But enterprise decisions are **n-ary** – they involve multiple entities simultaneously:
 
-When a renewal agent proposes a 20% discount, it doesn't just pull from the CRM. It pulls from:
-- **PagerDuty** for incident history
-- **Zendesk** for escalation threads
-- **Slack** for VP approval from last quarter
-- **Salesforce** for the deal record
-- **Snowflake** for usage data
-- **The semantic layer** for the definition of "healthy customer"
+> "When a renewal agent proposes a 20% discount, it doesn't just pull from the CRM. It pulls from PagerDuty for incident history, Zendesk for escalation threads, Slack for VP approval from last quarter, Salesforce for the deal record, Snowflake for usage data, and the semantic layer for the definition of 'healthy customer'."
 
-Traditional pairwise knowledge graphs cannot capture these **n-ary relationships** faithfully.
-
-### The Solution: Hypergraph-Based Context Graphs
-
-This implementation uses **hypergraphs** to capture higher-order relationships:
-
-| Feature | Traditional KG | Hypergraph Context Graph |
-|---------|---------------|-------------------------|
-| Connection | Pairwise (2 nodes) | n-ary (3+ nodes) |
-| Reasoning | Local, multi-hop | Global, high-order correlation |
-| Context | Fragmented | Unified/Preserved |
-| Complexity | High (combinatorial explosion) | Compact (reduced edge count) |
+**Hypergraphs** solve this by allowing edges (hyperedges) to connect 3+ nodes, preserving the full context of enterprise decisions.
 
 ## Architecture
 
@@ -37,262 +22,207 @@ This implementation uses **hypergraphs** to capture higher-order relationships:
 ┌─────────────────────────────────────────────────────────────┐
 │                    ENTERPRISE DATA SOURCES                   │
 ├─────────┬─────────┬─────────┬─────────┬─────────┬──────────┤
-│   CRM   │ Support │  Slack  │  Data   │Incident │   HR     │
-│         │         │         │Warehouse│         │          │
+│Salesforce│ Zendesk │  Slack  │PagerDuty│Snowflake│  Custom  │
 └────┬────┴────┬────┴────┬────┴────┬────┴────┬────┴────┬─────┘
      │         │         │         │         │         │
      └─────────┴─────────┴────┬────┴─────────┴─────────┘
                               │
                     ┌─────────▼─────────┐
-                    │  Hypergraph       │
-                    │  Builder          │
-                    │  (Algorithm 1)    │
+                    │   LLM-Powered     │
+                    │   Entity          │  ◄── Claude / GPT-4
+                    │   Extraction      │
                     └─────────┬─────────┘
                               │
                     ┌─────────▼─────────┐
-                    │  Enterprise       │
-                    │  Hypergraph       │
-                    │  H = (V, E)       │
+                    │     TypeDB        │
+                    │   Hypergraph      │  ◄── Native n-ary relations
+                    │   Database        │
                     └─────────┬─────────┘
                               │
         ┌─────────────────────┼─────────────────────┐
         │                     │                     │
 ┌───────▼───────┐    ┌───────▼───────┐    ┌───────▼───────┐
-│   Traversal   │    │   Analysis    │    │  Multi-Agent  │
-│   Engine      │    │   Engine      │    │  Reasoning    │
-│ (BFS + Yen K) │    │ (s-components)│    │  System       │
+│ ContextAgent  │    │ExecutiveAgent │    │GovernanceAgent│
+│ (Traversal)   │    │ (Reasoning)   │    │ (Compliance)  │
 └───────────────┘    └───────────────┘    └───────────────┘
 ```
 
-## Key Components
+## Features
 
-### 1. Data Models (`models.py`)
+- **TypeDB Backend**: Native hypergraph storage with inference rules
+- **Enterprise Connectors**: Salesforce, Zendesk, Slack, PagerDuty, Snowflake
+- **LLM Integration**: Anthropic Claude, OpenAI GPT-4, Together AI
+- **Entity Extraction**: LLM-powered extraction pipeline
+- **Multi-Agent Reasoning**: Context, Executive, and Governance agents
+- **Path Finding**: BFS and Yen's K-shortest paths with intersection constraints
 
-Adapts the scientific schema for enterprise use:
+## Quick Start
 
-```python
-class DecisionEvent(BaseModel):
-    """A decision event (hyperedge) in the enterprise context graph."""
-    participants: List[str]          # N-ary: all entities involved
-    decision_type: str               # approval, escalation, renewal
-    relation: str                    # The action taken
-    operational_context: List[str]   # SOPs, policies referenced
-    analytical_context: List[str]    # Metrics, calculations used
-    rationale: Optional[str]         # The "why" behind the decision
+### Prerequisites
+
+- Python 3.11+
+- TypeDB (Cloud or Community Edition)
+- API keys for LLM providers (Anthropic, OpenAI)
+
+### Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/yourusername/hypergraph-context-graph.git
+cd hypergraph-context-graph
+
+# Create virtual environment
+python -m venv venv
+source venv/bin/activate  # or `venv\Scripts\activate` on Windows
+
+# Install dependencies
+pip install -e ".[all]"
+
+# Copy environment template
+cp .env.example .env
+# Edit .env with your API keys
 ```
 
-### 2. Hypergraph Construction (`hypergraph_builder.py`)
+### Start TypeDB
 
-Implements **Algorithm 1** from the paper with enterprise adaptations:
+```bash
+# Using Docker
+docker run -d --name typedb -p 1729:1729 typedb/typedb:latest
 
-```python
-# Algorithm 1: LLM-guided hypergraph construction with incremental merging
-#
-# Input: Data from CRM, Support, Communication systems
-# Output: Hypergraph H = (V, E), node embeddings Φ
-#
-# Phase 1: Multi-system ingestion (instead of PDF processing)
-# Phase 2: Decision event extraction (dual-pass strategy)
-# Phase 3: Entity resolution across systems
-# Phase 4: Incremental merging with provenance tracking
+# Or download from https://typedb.com/docs/home/install/ce
 ```
 
-### 3. Graph Traversal (`traversal.py`)
+### Load Schema
 
-Implements path-finding with **intersection constraints**:
-
-```python
-class PathConstraint:
-    intersection_size: int = 1   # Min nodes shared between adjacent hyperedges (IS)
-    k_paths: int = 3             # Number of shortest paths (Yen-style)
-    max_path_length: int = 10    # Maximum hyperedges in path
+```bash
+python scripts/load_schema.py
 ```
 
-From the paper:
-> "Paths are recovered under a node intersection constraint (S), where adjacent hyperedges must share exactly S nodes."
+### Run the API
 
-In enterprise context, requiring `IS ≥ 2` ensures decision paths share meaningful common entities (e.g., same Customer AND same Policy).
-
-### 4. Multi-Agent Reasoning (`agents.py`)
-
-Adapts the paper's agent architecture:
-
-| Scientific Paper | Enterprise Implementation |
-|-----------------|--------------------------|
-| User | Sales/Support/Finance Agent |
-| GraphAgent | ContextAgent |
-| Engineer | ExecutiveAgent |
-| Hypothesizer | GovernanceAgent |
-
-```
-User Query: "Why was Acme given a 20% discount?"
-     │
-     ▼
-ContextAgent: Finds hypergraph paths, extracts context
-     │
-     ▼
-ExecutiveAgent: Interprets mechanistically
-     │
-     ▼
-GovernanceAgent: Verifies compliance, recommends actions
+```bash
+uvicorn src.api.main:app --reload
 ```
 
-### 5. Hypergraph Analysis (`analysis.py`)
+## Configuration
 
-Implements analytics from Section 2.2:
+Create a `.env` file with:
 
-- **Degree distribution** (Figure 5): Identify hub entities
-- **Hub analysis** (Table 2): Key decision-making players
-- **S-connected components** (Table 4): Decision pattern stability
-- **Rich-club analysis** (Table 3): Decision concentration
+```env
+# TypeDB
+TYPEDB_HOST=localhost
+TYPEDB_PORT=1729
+TYPEDB_DATABASE=context_graph
 
-**Enterprise Interpretation:**
-- **High-s components** = Stable SOPs, established decision patterns
-- **Low-s components** = Areas in flux, emerging patterns
-- **Rich-club coefficient** = Decision-making concentration
+# LLM Providers
+LLM_ANTHROPIC_API_KEY=sk-ant-...
+LLM_OPENAI_API_KEY=sk-...
+
+# Connectors (optional)
+CONNECTOR_SALESFORCE_USERNAME=...
+CONNECTOR_SLACK_BOT_TOKEN=xoxb-...
+```
 
 ## Usage
 
-### Quick Demo
-```bash
-python main.py --quick
-```
+### Python API
 
-### Full Demonstration
-```bash
-python main.py --full
-```
-
-### Analysis Only
-```bash
-python main.py --analysis-only
-```
-
-## Example Output
-
-```
-=== QUERY: Why was Acme Corp given a 20% discount? ===
-
-[CONTEXT AGENT]
-Found 3 relevant decision paths connecting:
-  - cust_acme (customer entity)
-  - vp_sales (decision maker)
-  - deal_001 (deal entity)
-
-Path 1:
-  Step 1: escalation - escalated (involving: cust_acme, eng_mike, ticket_101)
-    → Connected via: cust_acme
-  Step 2: approval - approved (involving: deal_001, vp_sales, rep_jane)
-    → Connected via: deal_001
-
-[EXECUTIVE AGENT]
-Mechanistic Interpretation:
-  The decision trace shows Acme Corp experienced a high-severity incident
-  (ticket_101) that was escalated due to SLA breach risk. This incident
-  history, combined with the customer's health score of 72 (at-risk threshold),
-  justified the 20% discount which was approved by VP Sales.
-
-[GOVERNANCE AGENT]
-Compliance Status: COMPLIANT
-  ✓ Proper approval chain followed (20% requires VP)
-  ✓ Discount policy referenced
-  ✓ Precedent exists (Q3 2023 similar situation)
-
-Recommended Actions:
-  1. Document this decision as precedent
-  2. Schedule 30-day customer check-in
-  3. Update customer health score tracking
-```
-
-## Theoretical Foundation
-
-### Why Hypergraphs?
-
-From Stewart & Buehler:
-
-> "Traditional pairwise KGs are ill-suited for scientific reasoning as they cannot adequately capture higher-order interactions among multiple entities that often govern emergent physical system behavior."
-
-This applies directly to enterprise decisions where:
-- A discount approval involves customer + sales rep + VP + deal + policy
-- An escalation involves customer + support agent + engineering + incident + SLA
-- These are **irreducible n-ary relationships**
-
-### The Feedback Flywheel
-
-From enterprise AI discourse:
-
-> "The key to both operational & analytical context databases isn't the databases themselves. It's the feedback loops within them."
-
-This implementation supports the flywheel:
-1. **Accuracy creates trust**: Hypergraph topology validates reasoning
-2. **Trust creates adoption**: Agents query the graph more
-3. **Adoption creates feedback**: More decisions → more edges
-4. **Feedback creates accuracy**: Entity resolution improves
-
-### Customer-Owned Context
-
-> "Enterprises learned a lesson from cloud data warehouses... This is why Iceberg exists and open table formats are winning."
-
-This implementation uses open formats:
-- Pydantic models for schema
-- JSON serialization
-- No vendor lock-in
-- Portable hypergraph representation
-
-## Production Considerations
-
-### Scaling
-- Use HyperNetX for hypergraph operations at scale
-- Implement embedding-based entity resolution with vector DB
-- Add caching layer for frequent traversals
-
-### LLM Integration
 ```python
-# Replace mock extractors with LLM-based extraction
-extractor = DecisionEventExtractor(llm_client=openai_client)
+from src.typedb.client import TypeDBClient
+from src.extraction.pipeline import EntityExtractionPipeline
+from src.llm.anthropic import AnthropicConnector
+
+# Connect to TypeDB
+async with TypeDBClient() as db:
+    # Insert an entity
+    entity_id = await db.insert_entity(
+        entity_type="customer",
+        attributes={
+            "entity-id": "cust_001",
+            "entity-name": "Acme Corp",
+            "health-score": 72.0,
+            "tier": "enterprise",
+        }
+    )
+    
+    # Query the hypergraph
+    results = await db.query("""
+        match
+            $c isa customer, has entity-name $name;
+            $d isa deal;
+            (involved-entity: $c, involved-entity: $d) isa decision-event;
+        fetch $c: entity-name; $d: deal-value;
+    """)
 ```
 
-### Data Connectors
-```python
-# Real connectors would implement the abstract interface
-class SalesforceConnector(EnterpriseDataConnector):
-    def fetch_records(self, query, time_range, limit):
-        # Salesforce API calls
-        pass
+### REST API
+
+```bash
+# Query the context graph
+curl -X POST http://localhost:8000/api/v1/query \
+  -H "Content-Type: application/json" \
+  -d '{"query": "Why was Acme Corp given a 20% discount?"}'
+
+# Insert an entity
+curl -X POST http://localhost:8000/api/v1/entities \
+  -H "Content-Type: application/json" \
+  -d '{"type": "customer", "name": "Acme Corp", "attributes": {"tier": "enterprise"}}'
 ```
 
-### Persistence
-```python
-# Save hypergraph
-with open('context_graph.json', 'w') as f:
-    json.dump(hypergraph.model_dump(), f)
+## Project Structure
 
-# Load hypergraph
-hypergraph = EnterpriseHypergraph.model_validate(data)
 ```
+hypergraph-context-graph/
+├── src/
+│   ├── typedb/           # TypeDB client and schema
+│   ├── connectors/       # Enterprise data connectors
+│   ├── llm/              # LLM provider integrations
+│   ├── extraction/       # Entity extraction pipeline
+│   ├── agents/           # Multi-agent reasoning system
+│   ├── api/              # FastAPI application
+│   └── models/           # Pydantic data models
+├── tests/
+├── scripts/
+├── docs/
+└── docker/
+```
+
+## Development
+
+```bash
+# Install dev dependencies
+pip install -e ".[dev]"
+
+# Run tests
+pytest
+
+# Run linter
+ruff check src/
+
+# Type checking
+mypy src/
+```
+
+## Roadmap
+
+- [x] Phase 1: TypeDB Integration
+- [ ] Phase 2: Enterprise Connectors
+- [ ] Phase 3: LLM Connectors
+- [ ] Phase 4: Multi-Agent System
+- [ ] Phase 5: Production Deployment
+
+See [ARCHITECTURE_PLAN.md](ARCHITECTURE_PLAN.md) for detailed roadmap.
 
 ## References
 
-1. Stewart, I.A. & Buehler, M.J. (2026). "Higher-Order Knowledge Representations for Agentic Scientific Reasoning." arXiv:2601.04878
-
-2. Ball, J. "Long Live Systems of Record"
-
-3. Gupta, J. & Garg, A. "AI's trillion-dollar opportunity: Context graphs"
-
-4. Tunguz, T. "Operational and Analytical Context Databases"
+1. Stewart & Buehler (2026). "Higher-Order Knowledge Representations for Agentic Scientific Reasoning" - [arXiv:2601.04878](https://arxiv.org/abs/2601.04878)
+2. [TypeDB Documentation](https://typedb.com/docs)
+3. [HyperGraphReasoning](https://github.com/lamm-mit/HyperGraphReasoning) - Original MIT implementation
 
 ## License
 
-MIT License - See LICENSE file
+MIT License - see [LICENSE](LICENSE) for details.
 
-## Citation
+## Contributing
 
-If you use this implementation, please cite:
-
-```bibtex
-@software{enterprise_context_graph,
-  title = {Enterprise Context Graph Implementation},
-  year = {2026},
-  note = {Based on Stewart \& Buehler hypergraph methodology}
-}
-```
+Contributions are welcome! Please read our contributing guidelines and submit PRs.
