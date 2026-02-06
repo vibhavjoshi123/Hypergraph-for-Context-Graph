@@ -2,11 +2,11 @@
 
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
 [![TypeDB](https://img.shields.io/badge/TypeDB-3.x-green.svg)](https://typedb.com/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 
 **Production-ready Enterprise Context Graph using Hypergraphs and TypeDB**
 
-This project implements a hypergraph-based context graph system for enterprise decision-making using TypeDB's native n-ary relations, category-theoretic 2-morphisms, and chemical reaction network isomorphisms.
+This project implements a hypergraph-based context graph system for enterprise decision-making, 
 
 ## Why Hypergraphs?
 
@@ -215,8 +215,9 @@ See [ARCHITECTURE_PLAN.md](ARCHITECTURE_PLAN.md) for detailed roadmap.
 
 ## References
 
-1. [TypeDB Documentation](https://typedb.com/docs)
-2. [HyperGraphReasoning](https://github.com/lamm-mit/HyperGraphReasoning) - MIT implementation
+
+2. [TypeDB Documentation](https://typedb.com/docs)
+
 
 ## License
 
