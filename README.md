@@ -6,7 +6,7 @@
 
 **Production-ready Enterprise Context Graph using Hypergraphs and TypeDB**
 
-This project implements a hypergraph-based context graph system for enterprise decision-making, based on the methodology from ["Higher-Order Knowledge Representations for Agentic Scientific Reasoning"](https://arxiv.org/abs/2601.04878) (Stewart & Buehler, MIT, 2026).
+This project implements a hypergraph-based context graph system for enterprise decision-making using TypeDB's native n-ary relations, category-theoretic 2-morphisms, and chemical reaction network isomorphisms.
 
 ## Why Hypergraphs?
 
@@ -215,9 +215,8 @@ See [ARCHITECTURE_PLAN.md](ARCHITECTURE_PLAN.md) for detailed roadmap.
 
 ## References
 
-1. Stewart & Buehler (2026). "Higher-Order Knowledge Representations for Agentic Scientific Reasoning" - [arXiv:2601.04878](https://arxiv.org/abs/2601.04878)
-2. [TypeDB Documentation](https://typedb.com/docs)
-3. [HyperGraphReasoning](https://github.com/lamm-mit/HyperGraphReasoning) - Original MIT implementation
+1. [TypeDB Documentation](https://typedb.com/docs)
+2. [HyperGraphReasoning](https://github.com/lamm-mit/HyperGraphReasoning) - MIT implementation
 
 ## License
 
