@@ -775,7 +775,6 @@ hypergraph-context-graph/
 
 ## References
 
-1. Stewart & Buehler (2026). "Higher-Order Knowledge Representations for Agentic Scientific Reasoning"
-2. TypeDB Documentation: https://typedb.com/docs
-3. TypeDB Python Driver: https://github.com/typedb/typedb-driver
-4. HyperGraphReasoning: https://github.com/lamm-mit/HyperGraphReasoning
+1. TypeDB Documentation: https://typedb.com/docs
+2. TypeDB Python Driver: https://github.com/typedb/typedb-driver
+3. HyperGraphReasoning: https://github.com/lamm-mit/HyperGraphReasoning
