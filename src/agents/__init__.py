@@ -12,5 +12,12 @@ from src.agents.base import BaseAgent
 from src.agents.context_agent import ContextAgent
 from src.agents.executive_agent import ExecutiveAgent
 from src.agents.governance_agent import GovernanceAgent
+from src.agents.tools import HypergraphTools
 
-__all__ = ["BaseAgent", "ContextAgent", "ExecutiveAgent", "GovernanceAgent"]
+__all__ = [
+    "BaseAgent",
+    "ContextAgent",
+    "ExecutiveAgent",
+    "GovernanceAgent",
+    "HypergraphTools",
+]

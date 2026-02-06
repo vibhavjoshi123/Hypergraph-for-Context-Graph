@@ -17,7 +17,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from src.api.routes import entities, hyperedges, query
+from src.api.routes import connectors, entities, hyperedges, query
 from src.config import get_settings
 
 
@@ -56,6 +56,7 @@ def create_app() -> FastAPI:
     app.include_router(query.router, prefix="/api/v1", tags=["query"])
     app.include_router(entities.router, prefix="/api/v1", tags=["entities"])
     app.include_router(hyperedges.router, prefix="/api/v1", tags=["hyperedges"])
+    app.include_router(connectors.router, prefix="/api/v1", tags=["connectors"])
 
     @app.get("/health")
     async def health_check() -> dict[str, str]:
