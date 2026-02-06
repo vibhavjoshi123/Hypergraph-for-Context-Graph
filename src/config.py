@@ -54,6 +54,10 @@ class APISettings(BaseSettings):
     port: int = Field(default=8000, alias="API_PORT")
     debug: bool = Field(default=False, alias="API_DEBUG")
     cors_origins: list[str] = Field(default=["*"], alias="API_CORS_ORIGINS")
+    api_key: str | None = Field(default=None, alias="API_KEY")
+    rate_limit_rpm: int = Field(default=120, alias="API_RATE_LIMIT_RPM")
+    log_format: str = Field(default="text", alias="LOG_FORMAT")
+    log_level: str = Field(default="INFO", alias="LOG_LEVEL")
 
     model_config = {"env_prefix": "API_", "extra": "ignore"}
 
