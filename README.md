@@ -2,11 +2,11 @@
 
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
 [![TypeDB](https://img.shields.io/badge/TypeDB-3.x-green.svg)](https://typedb.com/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 
 **Production-ready Enterprise Context Graph using Hypergraphs and TypeDB**
 
-This project implements a hypergraph-based context graph system for enterprise decision-making, based on the methodology from ["Higher-Order Knowledge Representations for Agentic Scientific Reasoning"](https://arxiv.org/abs/2601.04878) (Stewart & Buehler, MIT, 2026).
+This project implements a hypergraph-based context graph system for enterprise decision-making, 
 
 ## Why Hypergraphs?
 
@@ -215,9 +215,9 @@ See [ARCHITECTURE_PLAN.md](ARCHITECTURE_PLAN.md) for detailed roadmap.
 
 ## References
 
-1. Stewart & Buehler (2026). "Higher-Order Knowledge Representations for Agentic Scientific Reasoning" - [arXiv:2601.04878](https://arxiv.org/abs/2601.04878)
+
 2. [TypeDB Documentation](https://typedb.com/docs)
-3. [HyperGraphReasoning](https://github.com/lamm-mit/HyperGraphReasoning) - Original MIT implementation
+
 
 ## License
 
