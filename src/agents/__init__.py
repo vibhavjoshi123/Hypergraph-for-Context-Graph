@@ -1,0 +1,16 @@
+"""Multi-agent reasoning system for the hypergraph context graph.
+
+From Higher-Order Reasoning PDF Section 3, each agent implements
+a well-defined categorical operation:
+
+- ContextAgent: 1-morphism composition (path finding via IS constraints)
+- ExecutiveAgent: 2-morphism proposal (reasoning dependency identification)
+- GovernanceAgent: Coherence verification (diagram commutativity checking)
+"""
+
+from src.agents.base import BaseAgent
+from src.agents.context_agent import ContextAgent
+from src.agents.executive_agent import ExecutiveAgent
+from src.agents.governance_agent import GovernanceAgent
+
+__all__ = ["BaseAgent", "ContextAgent", "ExecutiveAgent", "GovernanceAgent"]
